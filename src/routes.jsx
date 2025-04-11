@@ -1,24 +1,24 @@
 import { createBrowserRouter } from "react-router";
-import HomePage from "./pages/HomePage.jsx";
-import LoginPage from "./pages/LoginPage.jsx";
+import Home from "./pages/Home.jsx";
+import Error from "./pages/Error.jsx";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import BlogPage from "./pages/BlogPage.jsx";
-import ErrorPage from "./pages/ErrorPage.jsx";
-import SignupPage from "./pages/SignupPage.jsx";
-import ViewBlogPage from "./pages/ViewBlogPage.jsx";
+import MyBlog from "./pages/MyBlog.jsx";
+import AddBlog from "./pages/AddBlog.jsx";
 
 const router = createBrowserRouter([
-  { path: "/", element: <HomePage /> , errorElement: <ErrorPage /> },
-  { path: "login", element: <LoginPage /> },
-  {path: "signup", element: <SignupPage /> },
+  { path: "/", element: <Home /> , errorElement: <Error /> },
+  { path: "login", element: <Login /> },
+  { path: "signup", element: <Signup /> },
+  {path: "add-blog", element: <AddBlog /> },
   {
     path: "dashboard",
-    element: <Dashboard />,
+    element: <Dashboard/>,
     children: [
-      { index: true, element: <BlogPage /> },
-      { path:"view-blog", element: <ViewBlogPage /> },
-    ],
-  },
+      {index: true, element: <MyBlog />}
+    ]
+  }
 ]);
 
 export default router;
