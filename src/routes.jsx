@@ -8,17 +8,17 @@ import MyBlog from "./pages/MyBlog.jsx";
 import AddBlog from "./pages/AddBlog.jsx";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Home /> , errorElement: <Error /> },
+  { path: "/", element: <Home />, errorElement: <Error /> },
   { path: "login", element: <Login /> },
   { path: "signup", element: <Signup /> },
-  {path: "add-blog", element: <AddBlog /> },
   {
     path: "dashboard",
-    element: <Dashboard/>,
+    element: <Dashboard />,
     children: [
-      {index: true, element: <MyBlog />}
-    ]
-  }
+      { index: true, element: <MyBlog /> },
+      { path: "add-blog", element: <AddBlog /> },
+    ],
+  },
 ]);
 
 export default router;

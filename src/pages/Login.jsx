@@ -1,61 +1,20 @@
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router";
+import useLogin from "../hooks/useLogin";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if(token){
-      navigate("/");
-    }
-  }, [navigate])
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (res.status === 200) {
-        const jwtToken = await res.json();
-        localStorage.setItem("token", jwtToken["token"]);
-        navigate("/dashboard");
-      }
-
-      if (res.status === 400) {
-        const error = await res.json();
-        setError(error["error"]);
-      }
-
-      if (res.status === 401) {
-        const error = await res.json();
-        setError(error["error"]);
-      }
-    } catch (error) {
-      setError(error["error"]);
-    }
-  };
+  const { username, setUsername, password, setPassword, error, handleLogin } =
+    useLogin();
 
   return (
     <div>
       <h1>Welcome To Login</h1>
-      <p>{error}</p>
+      {error && <p>{error}</p>}
       <form>
         <label>
           Username:
           <input
             type="text"
             placeholder="Username"
+            value={username}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -66,6 +25,7 @@ function Login() {
           <input
             type="text"
             placeholder="Password"
+            value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
