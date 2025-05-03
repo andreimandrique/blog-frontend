@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import {useEffect, useState} from "react";
 
-function useVerifyToken() {
+function useMyBlog() {
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch("http://localhost:3000/verify", {
+    fetch("http://localhost:3000/blogs/me", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -18,10 +19,16 @@ function useVerifyToken() {
         }
         return res.json();
       })
+      .then((data) => setData(data["blogs"]))
       .catch(() => setError(true))
       .finally(() => setLoading(false));
-  });
-  return { error, loading };
+  })
+
+  return {
+    data,
+    loading,
+    error,
+  }
 }
 
-export default useVerifyToken;
+export default useMyBlog;
