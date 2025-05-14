@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 function useMyBlog() {
   const [myBlog, setMyBlog] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const token = localStorage.getItem("token");
@@ -14,8 +14,8 @@ function useMyBlog() {
       },
     })
       .then((res) => res.json())
-      .then((data) => setMyBlog(data))
-      .catch((err) => setError(err))
+      .then((data) => setMyBlog(data.blogs))
+      .catch(() => setError(true))
       .finally(() => setLoading(false));
   });
 
