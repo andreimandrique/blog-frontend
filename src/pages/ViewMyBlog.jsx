@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 
 function ViewMyBlog() {
   const { blogId } = useParams();
-
   const [myBlog, setMyBlog] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -11,15 +10,29 @@ function ViewMyBlog() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch(`http://localhost:3000/blogs/me/${blogId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setMyBlog(data.blog))
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
+    const fetchBlog = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/blogs/me/${blogId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error ${res.status}`);
+        }
+
+        const data = await res.json();
+        setMyBlog(data.blog);
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlog();
   }, [blogId, token]);
 
   return (

@@ -8,16 +8,30 @@ function useMyBlog() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch("http://localhost:3000/blogs/me", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setMyBlog(data.blogs))
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
-  });
+    const fetchBlogs = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/blogs/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        setMyBlog(data.blogs);
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, [token]);
 
   return { myBlog, error, loading };
 }
