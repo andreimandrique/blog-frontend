@@ -15,7 +15,6 @@ function useAddBlog() {
     setError("");
 
     let editorContent = "";
-
     if (editorRef.current) {
       editorContent = editorRef.current.getContent();
     }

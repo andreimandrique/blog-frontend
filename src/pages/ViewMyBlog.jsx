@@ -47,6 +47,7 @@ function ViewMyBlog() {
             <div dangerouslySetInnerHTML={{ __html: myBlog.content }} />
           </div>
         )}
+        <Link to={`/dashboard/edit-blog/${blogId}`}>Edit</Link>
       </div>
     </div>
   );

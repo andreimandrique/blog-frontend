@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import MyBlog from "./pages/MyBlog.jsx";
 import AddBlog from "./pages/AddBlog.jsx";
 import ViewMyBlog from "./pages/ViewMyBlog.jsx";
+import EditBlog from "./pages/EditBlog.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home />, errorElement: <Error /> },
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { index: true, element: <MyBlog /> },
       { path: "add-blog", element: <AddBlog /> },
       { path: "view-blog/:blogId", element: <ViewMyBlog /> },
+      { path: "edit-blog/:blogId", element: <EditBlog /> },
     ],
   },
 ]);
