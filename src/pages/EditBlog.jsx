@@ -1,9 +1,12 @@
 import { useParams, Link } from "react-router";
 import { useState, useEffect, useRef } from "react";
 import TinyMCE from "../components/TinyMCE.jsx";
+import { useNavigate } from "react-router";
 
 function EditBlog() {
   const { blogId } = useParams();
+  const navigate = useNavigate();
+
   const [myBlog, setMyBlog] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -60,8 +63,25 @@ function EditBlog() {
     }
   };
 
-  const handleDeleteButton = () => {
-    console.log(blogId);
+  const handleDeleteButton = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/blogs", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ blog_id: Number(blogId) }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error ${res.status}`);
+      }
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError(true);
+    }
   };
 
   useEffect(() => {

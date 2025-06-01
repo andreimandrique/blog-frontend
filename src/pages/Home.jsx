@@ -1,6 +1,8 @@
 import { Link } from "react-router";
+import useBlog from "../hooks/useBlog.jsx";
 
 function Home() {
+  const { blog, error, loading } = useBlog();
   return (
     <div>
       <h1>Home</h1>
@@ -15,6 +17,21 @@ function Home() {
           <Link to="dashboard">Dashboard</Link>
         </li>
       </ul>
+      {error && <p>Error</p>}
+      {loading && <p>Loading...</p>}
+      {blog && (
+        <div>
+          {blog.length === 0 ? (
+            <p>No blogs found.</p>
+          ) : (
+            blog.map((blog) => (
+              <div key={blog.blog_id}>
+                <h3>{blog.title}</h3>
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 }
