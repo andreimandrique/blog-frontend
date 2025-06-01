@@ -8,10 +8,13 @@ function EditBlog() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [updated, setUpdated] = useState(false);
+
   const [title, setTitle] = useState("");
   const [published, setPublished] = useState(false);
-
   const editorRef = useRef(null);
+
+  const token = localStorage.getItem("token");
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -21,21 +24,45 @@ function EditBlog() {
     setPublished(event.target.checked);
   };
 
-  const handleEditButton = () => {
+  const handleEditButton = async () => {
     let editorContent = "";
     if (editorRef.current) {
       editorContent = editorRef.current.getContent();
     }
-    console.log(title);
-    console.log(published);
-    console.log(editorContent);
+
+    const updatedData = {
+      blog_id: Number(blogId),
+      title: title,
+      content: editorContent,
+      published: published,
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/blogs", {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error ${res.status}`);
+      }
+
+      setUpdated(true);
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDeleteButton = () => {
     console.log(blogId);
   };
-
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -93,6 +120,7 @@ function EditBlog() {
           />
           Published?
         </label>
+        {updated && <p>Blog Id {blogId} successfully edited</p>}
         {error && <p>Error</p>}
         {loading && <p>Loading...</p>}
         {myBlog && (
