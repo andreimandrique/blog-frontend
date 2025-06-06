@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import useBlog from "../hooks/useBlog.jsx";
+import { formatDate } from "date-fns/format";
 
 function Home() {
   const { blog, error, loading } = useBlog();
@@ -27,6 +28,9 @@ function Home() {
             blog.map((blog) => (
               <div key={blog.blog_id}>
                 <h3>{blog.title}</h3>
+                <p>
+                  {blog.author.username} {formatDate(blog.created_at, "PP")}
+                </p>
               </div>
             ))
           )}

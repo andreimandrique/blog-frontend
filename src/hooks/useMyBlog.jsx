@@ -15,13 +15,11 @@ function useMyBlog() {
             Authorization: `Bearer ${token}`,
           },
         });
-
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
-
-        const data = await res.json();
-        setMyBlog(data.blogs);
+        const result = await res.json();
+        setMyBlog(result.blogs);
       } catch (err) {
         console.error("Fetch error:", err);
         setError(true);
