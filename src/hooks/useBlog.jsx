@@ -8,7 +8,7 @@ function useBlog() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await fetch("http://localhost:3000/blogs");
+        const res = await fetch(`${import.meta.env.VITE_REST_API}blogs`);
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
@@ -22,7 +22,7 @@ function useBlog() {
       }
     };
     fetchBlog();
-  });
+  }, []);
 
   return { blog, error, loading };
 }

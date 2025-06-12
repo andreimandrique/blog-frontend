@@ -1,9 +1,10 @@
-import { useParams, Link } from "react-router";
+import { useParams, Link, useOutletContext } from "react-router";
 import { useState, useEffect, useRef } from "react";
 import TinyMCE from "../components/TinyMCE.jsx";
 import { useNavigate } from "react-router";
 
 function EditBlog() {
+  const user = useOutletContext();
   const { blogId } = useParams();
   const navigate = useNavigate();
 
@@ -41,7 +42,7 @@ function EditBlog() {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/blogs", {
+      const res = await fetch(`${import.meta.env.VITE_REST_API}blogs`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -65,7 +66,7 @@ function EditBlog() {
 
   const handleDeleteButton = async () => {
     try {
-      const res = await fetch("http://localhost:3000/blogs", {
+      const res = await fetch(`${import.meta.env.VITE_REST_API}blogs`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -113,46 +114,73 @@ function EditBlog() {
   }, [blogId, token]);
 
   return (
-    <div>
-      <ul>
-        <li>
-          <Link to="/dashboard">Home</Link>
-        </li>
-        <li>
-          <Link to={`/dashboard/view-blog/${blogId}`}>Go back to Blog</Link>
-        </li>
-      </ul>
-      <div>
-        <label>
-          Blog Title:
+    <>
+      <div className="flex flex-wrap justify-around py-2 border-b-2 border-slate-200">
+        <div>
+          <h1>Welcome {user.username}</h1>
+        </div>
+        <div>
+          <ul className="flex justify-evenly gap-6">
+            <li className="text-blue-600">
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+            <li className="text-blue-600">
+              <Link to={`/dashboard/view-blog/${blogId}`}>Go Back</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {updated && <p>Blog Id {blogId} successfully updated</p>}
+      {error && <p>Error</p>}
+      {loading && <p>Loading...</p>}
+
+      <div className="ml-2">
+        <div>
+          <label className="mr-4">Blog Title:</label>
           <input
             type="text"
             placeholder="Blog Title"
             value={title}
             onChange={handleTitleChange}
           />
-        </label>
-        <label>
+        </div>
+
+        <div>
+          <label className="mr-4">Published?</label>
           <input
             type="checkbox"
             checked={published}
             onChange={handlePublishedChange}
           />
-          Published?
-        </label>
-        {updated && <p>Blog Id {blogId} successfully edited</p>}
-        {error && <p>Error</p>}
-        {loading && <p>Loading...</p>}
-        {myBlog && (
-          <div>
-            <TinyMCE editorRef={editorRef} defaultContent={myBlog.content} />
-            <p>Published: {String(published)}</p>
-          </div>
-        )}
-        <button onClick={handleEditButton}>Edit</button>
-        <button onClick={handleDeleteButton}>Delete</button>
+        </div>
       </div>
-    </div>
+
+      {myBlog && (
+        <div>
+          <TinyMCE editorRef={editorRef} defaultContent={myBlog.content} />
+        </div>
+      )}
+
+      <div className="ml-2">
+        <p>Published: {String(published)}</p>
+      </div>
+
+      <div className="flex flex-wrap gap-4 my-2 ml-2">
+        <button
+          className="bg-blue-600 rounded-md text-white px-6"
+          onClick={handleEditButton}
+        >
+          Edit
+        </button>
+        <button
+          className="bg-blue-600 rounded-md text-white px-6"
+          onClick={handleDeleteButton}
+        >
+          Delete
+        </button>
+      </div>
+    </>
   );
 }
 

@@ -1,7 +1,8 @@
-import { useParams, Link } from "react-router";
+import { useParams, Link, useOutletContext } from "react-router";
 import { useState, useEffect } from "react";
 
 function ViewMyBlog() {
+  const user = useOutletContext();
   const { blogId } = useParams();
   const [myBlog, setMyBlog] = useState(null);
   const [error, setError] = useState(false);
@@ -12,11 +13,14 @@ function ViewMyBlog() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/blogs/me/${blogId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_REST_API}blogs/me/${blogId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!res.ok) {
           throw new Error(`HTTP error ${res.status}`);
@@ -36,20 +40,32 @@ function ViewMyBlog() {
   }, [blogId, token]);
 
   return (
-    <div>
-      <Link to="/dashboard">Go back</Link>
+    <>
+      <div className="flex justify-around py-2 border-b-2 border-slate-200">
+        <div>
+          <h1>Welcome {user.username}</h1>
+        </div>
+        <div>
+          <p className="text-blue-600">
+            <Link to="/dashboard">Dashboard</Link>
+          </p>
+        </div>
+      </div>
+
       <div>
         {error && <p>Error</p>}
         {loading && <p>Loading...</p>}
         {myBlog && (
-          <div>
-            <h1>{myBlog.title}</h1>
+          <div className="m-8">
+            <h1 className="text-center text-4xl my-4">{myBlog.title}</h1>
             <div dangerouslySetInnerHTML={{ __html: myBlog.content }} />
           </div>
         )}
-        <Link to={`/dashboard/edit-blog/${blogId}`}>Edit</Link>
+        <p className="text-center mt-2 text-blue-600">
+          <Link to={`/dashboard/edit-blog/${blogId}`}>Edit</Link>
+        </p>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -20,7 +20,7 @@ function useAddBlog() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/blogs", {
+      const res = await fetch(`${import.meta.env.VITE_REST_API}blogs`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

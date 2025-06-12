@@ -7,7 +7,7 @@ function useVerifyToken() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch("http://localhost:3000/verify", {
+    fetch(`${import.meta.env.VITE_REST_API}verify`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

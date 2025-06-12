@@ -20,7 +20,7 @@ function Dashboard() {
     }
   }, [navigate, error]);
 
-  if (loading) {
+  if (loading || !user) {
     return <p>Loading ...</p>;
   }
 
