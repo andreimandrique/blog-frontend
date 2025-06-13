@@ -13,7 +13,7 @@ function useSignin() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_REST_API}signup`, {
+      const res = await fetch(`${import.meta.env.VITE_REST_API}/signup`, {
         method: "POST",
         headers: {
           "content-type": "application/json",

@@ -14,7 +14,7 @@ function ViewMyBlog() {
     const fetchBlog = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_REST_API}blogs/me/${blogId}`,
+          `${import.meta.env.VITE_REST_API}/blogs/me/${blogId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

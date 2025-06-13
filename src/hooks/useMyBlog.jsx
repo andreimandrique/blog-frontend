@@ -10,7 +10,7 @@ function useMyBlog() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_REST_API}blogs/me`, {
+        const res = await fetch(`${import.meta.env.VITE_REST_API}/blogs/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -42,7 +42,7 @@ function EditBlog() {
     };
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_REST_API}blogs`, {
+      const res = await fetch(`${import.meta.env.VITE_REST_API}/blogs`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
