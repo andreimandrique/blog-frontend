@@ -66,7 +66,7 @@ function EditBlog() {
 
   const handleDeleteButton = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_REST_API}blogs`, {
+      const res = await fetch(`${import.meta.env.VITE_REST_API}/blogs`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -88,11 +88,14 @@ function EditBlog() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/blogs/me/${blogId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_REST_API}/me/${blogId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!res.ok) {
           throw new Error(`HTTP error ${res.status}`);

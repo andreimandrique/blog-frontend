@@ -52,7 +52,7 @@ function Signup() {
         <div className="flex flex-wrap mb-2 justify-between">
           <label>Password:</label>
           <input
-            type="text"
+            type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => {
@@ -64,7 +64,7 @@ function Signup() {
         <div className="flex flex-wrap mb-2 justify-between gap-2">
           <label>Confirm Password:</label>
           <input
-            type="text"
+            type="password"
             placeholder="Confirm Pasword"
             value={confirmPassword}
             onChange={(e) => {
