@@ -18,9 +18,6 @@ Create .env file in the root directory and add the following .
 ```
 VITE_REST_API="<Your backend Rest API>"
 ```
-
-
-
 ### 5. Start the server
 In development
 ```
