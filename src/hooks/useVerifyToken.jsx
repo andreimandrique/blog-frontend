@@ -20,7 +20,7 @@ function useVerifyToken() {
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
-  });
+  }, [token]);
   return { error, loading };
 }
 
